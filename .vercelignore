@@ -1,0 +1,14 @@
+# Vercel CLI sube todo el directorio salvo esto.
+# Los backups de .omo/ son archivos locales de rollback, nunca código de deploy.
+.omo/
+
+# Artefactos de build
+.next/
+out/
+node_modules/
+
+# Backups y archivos de trabajo
+*.BACKUP
+*.PRE-PORTFOLIO
+.env*
+.vercel

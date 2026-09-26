@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio
 
-## Getting Started
+Portfolio personal de Alex Vélez, construida para showcases de trabajo freelance.
 
-First, run the development server:
+**Producción:** https://portafolio-next-psi.vercel.app
+
+## Stack
+
+| Capa | Elección |
+|---|---|
+| Framework | Next.js 16.2 (App Router, React 19.2) |
+| Build | Turbopack |
+| Estilos | Tailwind CSS v4 |
+| Animación | Motion 12 + Lenis 1.3 (scroll suave) |
+| 3D | Three.js 0.184 + React Three Fiber 9 + drei |
+| UI | Radix Slot, Base UI, Floating UI, shadcn/ui, CVA |
+| Íconos | lucide-react |
+| Analytics | Vercel Analytics |
+| Deploy | Vercel |
+
+## Funcionalidad
+
+- **Bilingüe** `es-AR` / `en` con sincronización de `document.documentElement.lang`, persistida en `localStorage`.
+- **Casos de estudio** con modal accesible (focus trap) y navegación por teclado.
+- **Hero 3D** con escena Three.js en desktop, desactivada en touch.
+- **Contacto por WhatsApp** como vía principal de conversión, con `wa.me` links.
+- Preloader, cursor custom, marquee, tilt magnético, scroll progress.
+- `prefers-reduced-motion` respetado en toda la capa de motion.
+- SEO: `sitemap.xml`, `robots.txt`, Open Graph image, `not-found` propio.
+
+## Desarrollo
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev     # http://localhost:3000
+npm run build   # build de producción
+npm run lint    # eslint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Verificación responsive
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+El layout se validó con Playwright en 10 viewports (320 a 1920 px):
+`scrollWidth === viewportWidth` y `pageErrors === 0` en todos.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npx playwright install chromium
+node scripts/screenshots.mjs        # captura evidencia
+node scripts/convert-to-webp.mjs    # optimiza imágenes a WebP
+```
 
-## Learn More
+## Estructura
 
-To learn more about Next.js, take a look at the following resources:
+```
+app/            rutas, layout, sitemap, metadata
+components/     secciones de página, componentes de UI, escena 3D
+hooks/          use-scroll-y, use-mouse-position, use-focus-trap
+lib/            i18n (contexto + diccionario), utilidades
+public/         webp de proyectos, diplomas y screenshots
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Nota
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+`.omo/` y los `*.BACKUP` quedan fuera del repo por `.gitignore`: son rollback
+local, nunca código de deploy. `.vercelignore` replica esa regla para que Vercel
+no los suba.
 
-## Deploy on Vercel
+## Licencia
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Privado. Todos los derechos reservados.
