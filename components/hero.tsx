@@ -58,7 +58,7 @@ export function Hero() {
           {t.hero.subtitle}
         </motion.p>
         <motion.div
-          className="mt-10 flex items-center gap-6"
+          className="mt-10 flex w-full flex-col items-stretch gap-3 sm:w-auto sm:flex-row sm:items-center sm:gap-6"
           initial={prefersReduced ? { opacity: 1 } : { opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.5, ease: "easeOut" }}
@@ -67,7 +67,7 @@ export function Hero() {
             as="a"
             href="#work"
             onClick={() => track("view_projects")}
-            className="rounded-full bg-foreground px-6 py-2.5 text-xs font-medium uppercase tracking-[0.15em] text-background transition-all hover:opacity-90 cursor-pointer"
+            className="inline-flex w-full items-center justify-center whitespace-nowrap rounded-full bg-foreground px-6 py-3.5 text-center text-xs font-medium uppercase tracking-[0.15em] text-background transition-all hover:opacity-90 cursor-pointer sm:w-auto sm:py-2.5"
           >
             {t.hero.cta_work}
           </Magnetic>
@@ -77,7 +77,7 @@ export function Hero() {
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => track("whatsapp_hero")}
-            className="rounded-full px-6 py-2.5 text-xs uppercase tracking-[0.15em] text-muted-foreground transition-colors hover:text-foreground cursor-pointer"
+            className="inline-flex w-full items-center justify-center whitespace-nowrap rounded-full px-6 py-3.5 text-center text-xs uppercase tracking-[0.15em] text-muted-foreground transition-colors hover:text-foreground cursor-pointer sm:w-auto sm:py-2.5"
           >
             {t.hero.cta_contact}
           </Magnetic>
