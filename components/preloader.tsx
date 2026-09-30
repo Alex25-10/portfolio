@@ -33,6 +33,12 @@ export function Preloader() {
     }
   }, [prefersReduced])
 
+  useEffect(() => {
+    if (done) {
+      document.body.style.overflow = ""
+    }
+  }, [done])
+
   return (
     <AnimatePresence>
       {!done && (
