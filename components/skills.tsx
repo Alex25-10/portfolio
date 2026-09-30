@@ -4,8 +4,7 @@ import { useRef } from "react"
 import { motion, useInView, useReducedMotion } from "framer-motion"
 import { Palette, Globe, Sparkles, Smartphone } from "lucide-react"
 import { useLanguage } from "@/lib/i18n-context"
-import { DustField } from "@/components/dust-field"
-import { BlurReveal, ParallaxOrb } from "@/components/scroll-reveal"
+import { BlurReveal } from "@/components/scroll-reveal"
 
 const iconMap = [Palette, Globe, Sparkles, Smartphone] as const
 
@@ -17,8 +16,6 @@ export function Skills() {
 
   return (
     <section ref={ref} className="relative border-t border-border py-24 md:py-32">
-      <ParallaxOrb className="left-[-10rem] top-1/3 h-96 w-96 bg-warm/[0.05]" speed={80} />
-      <DustField count={10} seed={11} />
       <div className="container">
         <BlurReveal>
           <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
@@ -37,7 +34,7 @@ export function Skills() {
                 transition={{ delay: i * 0.1, duration: 0.5, ease: [0.25, 0.1, 0, 1] }}
                 className="group grid gap-4 md:grid-cols-12 md:gap-8"
               >
-                <span className="num-outline hidden font-display text-5xl font-bold leading-none transition-colors duration-300 group-hover:text-warm/30 md:col-span-2 md:block">
+                <span className="num-outline font-display text-5xl font-bold leading-none transition-colors duration-300 group-hover:text-warm/30 md:col-span-2">
                   {service.num}
                 </span>
                 <div className="flex items-start gap-4 md:col-span-10 md:gap-6">

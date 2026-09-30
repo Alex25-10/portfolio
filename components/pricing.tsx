@@ -97,7 +97,7 @@ export function Pricing() {
                     {String(i + 1).padStart(2, "0")}
                   </p>
                   <h3 className="mt-3 font-display text-xl font-bold text-foreground">{plan.title}</h3>
-                  <p className={`mt-2 font-display text-4xl font-extrabold tracking-tight md:text-5xl ${isFeatured ? "price-shimmer" : "text-warm"}`}>
+                  <p className="mt-2 font-display text-4xl font-extrabold tracking-tight md:text-5xl text-warm">
                     {plan.price}
                   </p>
                   <p className="mt-3 inline-block rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-sm font-medium text-emerald-300">

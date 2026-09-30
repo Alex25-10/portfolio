@@ -30,12 +30,14 @@ export function CustomCursor() {
       ring.classList.toggle("scale-[1.6]", !!isClickable)
     }
 
+    let rafId = 0
+
     function raf() {
       if (!ring) return
       rx += (mx - rx) * 0.18
       ry += (my - ry) * 0.18
       ring.style.transform = `translate(${rx - 12}px, ${ry - 12}px)`
-      requestAnimationFrame(raf)
+      rafId = requestAnimationFrame(raf)
     }
 
     const style = document.createElement("style")
@@ -43,9 +45,10 @@ export function CustomCursor() {
     document.head.appendChild(style)
 
     window.addEventListener("mousemove", onMove, { passive: true })
-    requestAnimationFrame(raf)
+    rafId = requestAnimationFrame(raf)
 
     return () => {
+      cancelAnimationFrame(rafId)
       style.remove()
       window.removeEventListener("mousemove", onMove)
     }

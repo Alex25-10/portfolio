@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useCallback } from "react"
-import { motion, AnimatePresence, useReducedMotion, useScroll, useTransform, useMotionTemplate } from "framer-motion"
+import { motion, AnimatePresence, useReducedMotion, useScroll, useTransform, useMotionTemplate, useMotionValueEvent } from "framer-motion"
 import { X } from "lucide-react"
 import { useLanguage } from "@/lib/i18n-context"
 import { useFocusTrap } from "@/hooks/use-focus-trap"
@@ -24,9 +24,15 @@ export function Navbar() {
   }))
   const [open, setOpen] = useState(false)
   const [active, setActive] = useState("")
+  const [hidden, setHidden] = useState(false)
   const prefersReduced = useReducedMotion()
   const menuRef = useFocusTrap(open)
   const { scrollY } = useScroll()
+  useMotionValueEvent(scrollY, "change", (y) => {
+    if (open) return
+    const prev = scrollY.getPrevious() ?? 0
+    setHidden(y > prev && y > 150)
+  })
   const navBlur = useTransform(scrollY, [0, 120], [0, 12])
   const navBg = useTransform(scrollY, [0, 120], [0, 0.6])
   const navFilter = useMotionTemplate`blur(${navBlur}px)`
@@ -71,7 +77,7 @@ export function Navbar() {
 
   return (
     <>
-      <motion.header className="fixed top-0 right-0 left-0 z-50" style={headerStyle} aria-hidden={open || undefined}>
+      <motion.header className="fixed top-0 right-0 left-0 z-50" style={headerStyle} aria-hidden={open || undefined} animate={prefersReduced ? {} : { y: hidden && !open ? "-100%" : "0%" }} transition={{ duration: 0.3, ease: [0.25, 0.1, 0, 1] }}>
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 md:px-10">
           <a
             href="#"

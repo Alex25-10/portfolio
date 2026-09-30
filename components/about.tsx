@@ -3,8 +3,6 @@
 import { useRef } from "react"
 import { motion, useInView, useReducedMotion, useScroll, useTransform, useMotionTemplate } from "framer-motion"
 import { useLanguage } from "@/lib/i18n-context"
-import { DustField } from "@/components/dust-field"
-import { ParallaxOrb } from "@/components/scroll-reveal"
 import { TiltCard } from "@/components/tilt-card"
 
 export function About() {
@@ -19,8 +17,6 @@ export function About() {
 
   return (
     <section id="about" ref={ref} className="relative py-24 md:py-40">
-      <ParallaxOrb className="right-[-12rem] top-1/4 h-[28rem] w-[28rem] bg-warm/[0.05]" speed={100} />
-      <DustField count={8} seed={33} />
       <div className="container">
         <div className="grid gap-12 md:grid-cols-5 md:gap-16">
           <div className="md:col-span-2">

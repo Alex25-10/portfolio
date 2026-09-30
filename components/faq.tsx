@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react"
 import { motion, useInView, useReducedMotion, AnimatePresence } from "framer-motion"
-import { ChevronDown } from "lucide-react"
+import { Plus } from "lucide-react"
 import { useLanguage } from "@/lib/i18n-context"
 
 export function FAQ() {
@@ -40,9 +40,9 @@ export function FAQ() {
                   aria-expanded={isOpen}
                 >
                   {item.q}
-                  <ChevronDown
+                  <Plus
                     className={`h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-300 ${
-                      isOpen ? "rotate-180" : ""
+                      isOpen ? "rotate-45" : ""
                     }`}
                   />
                 </button>

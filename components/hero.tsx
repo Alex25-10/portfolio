@@ -1,7 +1,7 @@
 "use client"
 
 import { useRef, useState, useEffect } from "react"
-import { motion, useReducedMotion, useScroll, useTransform, useMotionValue, useMotionTemplate } from "framer-motion"
+import { motion, useReducedMotion, useScroll, useTransform, useMotionTemplate } from "framer-motion"
 import dynamic from "next/dynamic"
 import { useMousePosition } from "@/hooks/use-mouse-position"
 import { Magnetic } from "@/components/magnetic"
@@ -30,15 +30,7 @@ export function Hero() {
   const blurV = useTransform(scrollY, [0, 500], [0, 10])
   const blurFilter = useMotionTemplate`blur(${blurV}px)`
   const contentStyle = prefersReduced ? {} : { opacity: fade, y: rise, scale, filter: blurFilter }
-
-  const shineX = useMotionValue(50)
-  const shinePos = useMotionTemplate`${shineX}% 0`
-  const shimmer = !isTouch && !prefersReduced
-
-  useEffect(() => {
-    if (typeof window === "undefined" || !shimmer) return
-    shineX.set(Math.min(100, Math.max(0, (mouse.x / window.innerWidth) * 100)))
-  }, [mouse.x, shimmer, shineX])
+  const cueOpacity = useTransform(scrollY, [0, 120], [1, 0])
 
   return (
     <section ref={ref} className="relative flex min-h-dvh items-center overflow-hidden">
@@ -66,8 +58,7 @@ export function Hero() {
 
       <motion.div className="container relative z-10 mx-auto flex flex-col items-center justify-center text-center" style={contentStyle}>
         <motion.h1
-          className={`font-display text-[clamp(3.5rem,15vw,9rem)] font-bold leading-[0.85] tracking-tight${shimmer ? " h1-shimmer" : ""}`}
-          style={shimmer ? { backgroundPosition: shinePos } : {}}
+          className="font-display text-[clamp(3.5rem,15vw,9rem)] font-bold leading-[0.85] tracking-tight"
           initial="hidden"
           animate="show"
           variants={{ hidden: {}, show: { transition: { staggerChildren: 0.045, delayChildren: 1.7 } } }}
@@ -125,9 +116,7 @@ export function Hero() {
 
       <motion.div
         className="absolute bottom-8 left-1/2 -translate-x-1/2"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1, duration: 0.8 }}
+        style={prefersReduced ? {} : { opacity: cueOpacity }}
       >
         <motion.div
           className="h-14 w-px bg-gradient-to-b from-muted-foreground/50 to-transparent"

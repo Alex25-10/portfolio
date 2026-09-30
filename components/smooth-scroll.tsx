@@ -16,6 +16,7 @@ export function SmoothScroll({ children }: SmoothScrollProps) {
     if (prefersReduced) return
 
     let cancelled = false
+    let rafId = 0
 
     async function init() {
       try {
@@ -26,7 +27,7 @@ export function SmoothScroll({ children }: SmoothScrollProps) {
           duration: 1.2,
           easing: (t: number) => Math.min(1, 1 - Math.pow(1 - t, 3)),
           orientation: "vertical",
-          smoothWheel: true,
+          smoothWheel: typeof window !== "undefined" && window.matchMedia("(pointer: fine)").matches,
           wheelMultiplier: 1,
           touchMultiplier: 1.5,
         })
@@ -35,10 +36,11 @@ export function SmoothScroll({ children }: SmoothScrollProps) {
 
         function raf(time: number) {
           lenis.raf(time)
-          requestAnimationFrame(raf)
+          if (cancelled) return
+          rafId = requestAnimationFrame(raf)
         }
 
-        requestAnimationFrame(raf)
+        rafId = requestAnimationFrame(raf)
         setReady(true)
       } catch {
         console.warn(
@@ -52,6 +54,7 @@ export function SmoothScroll({ children }: SmoothScrollProps) {
 
     return () => {
       cancelled = true
+      cancelAnimationFrame(rafId)
       if (lenisRef.current) {
         lenisRef.current.destroy()
         lenisRef.current = null

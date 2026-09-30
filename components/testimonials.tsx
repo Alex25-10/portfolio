@@ -2,7 +2,6 @@
 
 import { useRef } from "react"
 import { motion, useInView, useReducedMotion } from "framer-motion"
-import { TiltCard } from "@/components/tilt-card"
 import { useLanguage } from "@/lib/i18n-context"
 
 export function Testimonials() {
@@ -57,8 +56,8 @@ export function Testimonials() {
         <div className="mt-6 grid gap-6 md:grid-cols-2 md:gap-8">
           {items.slice(1).map((item, i) => {
             return (
-            <TiltCard key={item.author} max={5} className="h-full">
             <motion.blockquote
+              key={item.author}
               className="relative flex h-full flex-col justify-between rounded-md border border-border/80 bg-card/60 p-8 backdrop-blur-sm transition-all duration-500 hover:-translate-y-1"
               initial={prefersReduced ? { opacity: 1 } : { opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -87,7 +86,6 @@ export function Testimonials() {
                 </span>
               </footer>
             </motion.blockquote>
-            </TiltCard>
             )
           })}
         </div>
