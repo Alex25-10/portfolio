@@ -44,7 +44,7 @@ export function SmoothScroll({ children }: SmoothScrollProps) {
         setReady(true)
       } catch {
         console.warn(
-          "[SmoothScroll] Lenis no disponible — usando scroll nativo"
+          "[SmoothScroll] Lenis no disponible, usando scroll nativo"
         )
         setReady(true)
       }

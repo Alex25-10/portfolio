@@ -21,11 +21,11 @@ const spaceGrotesk = Space_Grotesk({
 export const metadata: Metadata = {
   metadataBase: new URL("https://portafolio-next-psi.vercel.app"),
   title: {
-    default: "Alex Vélez — Diseñador Web & Desarrollador en Córdoba",
+    default: "Alex Vélez, Diseñador Web y Desarrollador en Córdoba",
     template: "%s | Alex Vélez",
   },
   description:
-    "Diseñador web en Córdoba. Creo sitios profesionales para negocios locales — clínicas, restaurantes, gimnasios, servicios. Next.js, WordPress, SEO, diseño responsivo.",
+    "Diseñador web en Córdoba. Creo sitios profesionales para negocios locales: clínicas, restaurantes, gimnasios, servicios. Next.js, WordPress, SEO, diseño responsivo.",
   keywords: [
     "diseñador web Córdoba",
     "páginas web profesionales",
@@ -39,18 +39,18 @@ export const metadata: Metadata = {
     "Alex Vélez",
   ],
   openGraph: {
-    title: "Alex Vélez — Diseñador Web en Córdoba",
+    title: "Alex Vélez, Diseñador Web en Córdoba",
     description:
       "Diseñador web en Córdoba. Sitios profesionales para clínicas, restaurantes, gimnasios y servicios.",
     url: "https://portafolio-next-psi.vercel.app",
     locale: "es_AR",
     type: "website",
-    siteName: "Alex Vélez — Diseño & Desarrollo Web",
+    siteName: "Alex Vélez, Diseño y Desarrollo Web",
     images: [{ url: "/og-image.webp", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Alex Vélez — Diseñador Web en Córdoba",
+    title: "Alex Vélez, Diseñador Web en Córdoba",
     description:
       "Diseñador web en Córdoba. Sitios profesionales para clínicas, restaurantes, gimnasios y servicios.",
     images: ["/og-image.webp"],
@@ -73,7 +73,7 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
-  name: "Alex Vélez — Diseño & Desarrollo Web",
+  name: "Alex Vélez, Diseño y Desarrollo Web",
   description:
     "Diseñador web en Córdoba. Sitios profesionales para negocios locales. Next.js, WordPress, SEO y diseño responsivo.",
   url: "https://portafolio-next-psi.vercel.app",

@@ -23,11 +23,13 @@
   }
   html {
     scroll-behavior: smooth;
+    overflow-x: clip;
   }
   body {
     @apply bg-background text-foreground antialiased;
     font-size: 17px;
     line-height: 1.6;
+    overflow-x: clip;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
   ::selection {

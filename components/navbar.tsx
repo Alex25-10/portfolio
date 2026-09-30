@@ -198,7 +198,7 @@ export function Navbar() {
                 {lang === "es" ? "Switch to English" : "Cambiar a Español"}
               </button>
               <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground/40">
-                Alex Vélez — Diseño & Desarrollo Web
+                Alex Vélez, Diseño y Desarrollo Web
               </p>
             </motion.div>
           </motion.div>

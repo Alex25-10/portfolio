@@ -21,7 +21,8 @@ export function Contact() {
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     track("contact_submit")
-    const text = `Hola Alex, soy ${name || "—"} (${business || "—"}). ${message}`.trim()
+    const who = [name, business].filter(Boolean).join(" de ")
+    const text = `Hola Alex${who ? ", soy " + who : ""}.${message ? " " + message : ""}`.trim()
     window.open(`${WHATSAPP_URL}?text=${encodeURIComponent(text)}`, "_blank", "noopener")
   }
 
