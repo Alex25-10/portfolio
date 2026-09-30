@@ -1,10 +1,13 @@
 "use client"
 
 import { useRef, useState } from "react"
-import { motion, useInView, useReducedMotion, useScroll, useTransform, AnimatePresence } from "framer-motion"
+import { motion, useInView, useReducedMotion, AnimatePresence, useScroll, useTransform } from "framer-motion"
 import { ExternalLink, X, ArrowUpRight } from "lucide-react"
 import { useFocusTrap } from "@/hooks/use-focus-trap"
+import { TiltCard } from "@/components/tilt-card"
 import { useLanguage } from "@/lib/i18n-context"
+import { DustField } from "@/components/dust-field"
+import { BlurReveal, ParallaxOrb } from "@/components/scroll-reveal"
 import { track } from "@vercel/analytics"
 
 interface Project {
@@ -103,10 +106,12 @@ export function Projects() {
   const demos = projects.filter((p) => !p.featured)
 
   return (
-    <section id="work" className="py-24 md:py-40">
+    <section id="work" className="relative py-24 md:py-40">
+      <ParallaxOrb className="left-1/2 top-0 h-80 w-[40rem] -translate-x-1/2 bg-warm/[0.04]" speed={70} />
+      <DustField count={8} seed={55} />
       <div className="container mb-12 md:mb-20">
         <motion.p
-          className="text-xs uppercase tracking-[0.2em] text-muted-foreground"
+          className="text-sm uppercase tracking-[0.2em] text-muted-foreground"
           initial={prefersReduced ? { opacity: 1 } : { opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -117,14 +122,16 @@ export function Projects() {
       </div>
 
       <div className="container mb-10 md:mb-14">
-        <h2 className="font-display text-2xl font-bold tracking-tight text-foreground md:text-3xl">
-          {t.projects.real_title}
-        </h2>
-        <p className="mt-2 text-sm text-muted-foreground">{t.projects.real_sub}</p>
+        <BlurReveal>
+          <h2 className="font-display text-2xl font-bold tracking-tight text-foreground md:text-3xl">
+            {t.projects.real_title}
+          </h2>
+          <p className="mt-2 text-base text-muted-foreground">{t.projects.real_sub}</p>
+        </BlurReveal>
       </div>
 
       <div className="container">
-        <div className="space-y-24 md:space-y-40">
+        <div className="space-y-16 md:space-y-24">
           {real.map((project, i) => (
             <ProjectRow
               key={project.title}
@@ -137,23 +144,27 @@ export function Projects() {
         </div>
       </div>
 
-      <div className="container mb-10 mt-24 md:mb-14 md:mt-40">
-        <h2 className="font-display text-2xl font-bold tracking-tight text-foreground md:text-3xl">
-          {t.projects.demo_title}
-        </h2>
-        <p className="mt-2 text-sm text-muted-foreground">{t.projects.demo_sub}</p>
+      <div className="container mb-10 mt-24 md:mb-14 md:mt-32">
+        <BlurReveal>
+          <h2 className="font-display text-2xl font-bold tracking-tight text-foreground md:text-3xl">
+            {t.projects.demo_title}
+          </h2>
+          <p className="mt-2 text-base text-muted-foreground">{t.projects.demo_sub}</p>
+        </BlurReveal>
       </div>
 
-      <div className="space-y-24 md:space-y-40">
-        {demos.map((project, j) => (
-          <ProjectRow
-            key={project.title}
-            project={project}
-            index={real.length + j}
-            prefersReduced={prefersReduced}
-            onSelect={() => setSelected(project)}
-          />
-        ))}
+      <div className="container">
+        <div className="grid gap-8 md:grid-cols-2 md:gap-10">
+          {demos.map((project, j) => (
+            <ProjectRow
+              key={project.title}
+              project={project}
+              index={real.length + j}
+              prefersReduced={prefersReduced}
+              onSelect={() => setSelected(project)}
+            />
+          ))}
+        </div>
       </div>
 
       <AnimatePresence>
@@ -170,7 +181,7 @@ export function Projects() {
             />
             <motion.div
               ref={modalRef}
-              className="relative z-10 w-full max-w-2xl overflow-hidden bg-card"
+              className="relative z-10 w-full max-w-2xl overflow-hidden rounded-md bg-card"
               initial={prefersReduced ? { opacity: 1 } : { opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={prefersReduced ? { opacity: 1 } : { opacity: 0, scale: 0.95, y: 20 }}
@@ -185,13 +196,13 @@ export function Projects() {
               <div className="p-6 sm:p-8">
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <p className="text-xs uppercase tracking-[0.15em] text-muted-foreground">{selected.category}</p>
+                    <p className="text-sm uppercase tracking-[0.15em] text-muted-foreground">{selected.category}</p>
                     <h3 className="mt-2 font-display text-2xl font-bold text-foreground sm:text-3xl">{selected.title}</h3>
                   </div>
-                  <button onClick={() => setSelected(null)} className="flex h-8 w-8 shrink-0 items-center justify-center text-muted-foreground transition-colors hover:text-foreground cursor-pointer" aria-label={t.projects.close}><X className="h-4 w-4" /></button>
+                  <button type="button" onClick={() => setSelected(null)} className="flex h-8 w-8 shrink-0 items-center justify-center text-muted-foreground transition-colors hover:text-foreground cursor-pointer" aria-label={t.projects.close}><X className="h-4 w-4" /></button>
                 </div>
-                <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{selected.desc}</p>
-                <a href={selected.url} target="_blank" rel="noopener noreferrer" onClick={() => track("project_view", { title: selected.title })} className="mt-6 inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-xs font-medium uppercase tracking-[0.1em] text-background transition-all hover:opacity-80 cursor-pointer"><ExternalLink className="h-3 w-3" /> {t.projects.view_project}</a>
+                <p className="mt-4 text-base leading-relaxed text-muted-foreground">{selected.desc}</p>
+                <a href={selected.url} target="_blank" rel="noopener noreferrer" onClick={() => track("project_view", { title: selected.title })} className="mt-6 inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-sm font-medium uppercase tracking-[0.1em] text-background transition-all hover:opacity-80 cursor-pointer"><ExternalLink className="h-3 w-3" /> {t.projects.view_project}</a>
               </div>
             </motion.div>
           </motion.div>
@@ -228,98 +239,58 @@ function ProjectRow({
 }) {
   const rowRef = useRef<HTMLDivElement>(null)
   const isInView = useInView(rowRef, { once: true, margin: "-80px" })
+  const { scrollYProgress } = useScroll({ target: rowRef, offset: ["start end", "end start"] })
+  const imgY = useTransform(scrollYProgress, [0, 1], ["-6%", "6%"])
   const isEven = index % 2 === 0
   const isFeatured = project.featured
   const { translations: t } = useLanguage()
-
-  const { scrollYProgress } = useScroll({
-    target: rowRef,
-    offset: ["start end", "end start"],
-  })
-  const imgY = useTransform(scrollYProgress, [0, 1], ["-15%", "15%"])
-  const imgScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.95, 1, 0.95])
-
-  const [tilt, setTilt] = useState({ x: 0, y: 0 })
   const [hovering, setHovering] = useState(false)
-  const imgRef = useRef<HTMLDivElement>(null)
-
-  function handleMouseMove(e: React.MouseEvent) {
-    if (!imgRef.current) return
-    const rect = imgRef.current.getBoundingClientRect()
-    const x = (e.clientX - rect.left) / rect.width - 0.5
-    const y = (e.clientY - rect.top) / rect.height - 0.5
-    setTilt({ x: -y * 12, y: x * 12 })
-  }
-
-  function handleMouseLeave() {
-    setTilt({ x: 0, y: 0 })
-    setHovering(false)
-  }
 
   return (
     <div
       ref={rowRef}
       className={`group relative grid cursor-pointer gap-4 transition-all duration-300 md:gap-8 ${
-        isFeatured ? "md:grid-cols-1 rounded-sm border border-warm/10 bg-warm/[0.02] p-4 md:p-6" : "md:grid-cols-12 hover:opacity-90"
+        isFeatured ? "md:grid-cols-1 rounded-md border border-warm/25 bg-card/60 p-4 shadow-[0_30px_80px_-30px_rgba(196,181,165,0.35)] md:p-6" : "md:grid-cols-12 rounded-md border border-border/60 bg-card/40 p-4 md:p-5 hover:border-border hover:bg-card/60"
       }`}
       onClick={onSelect}
       role="button"
       tabIndex={0}
       onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") onSelect() }}
-      onMouseMove={handleMouseMove}
       onMouseEnter={() => setHovering(true)}
-      onMouseLeave={handleMouseLeave}
-      onTouchMove={(e) => {
-        if (!imgRef.current) return
-        const touch = e.touches[0]
-        const rect = imgRef.current.getBoundingClientRect()
-        const x = (touch.clientX - rect.left) / rect.width - 0.5
-        const y = (touch.clientY - rect.top) / rect.height - 0.5
-        setTilt({ x: -y * 6, y: x * 6 })
-      }}
-      onTouchEnd={() => setTilt({ x: 0, y: 0 })}
+      onMouseLeave={() => setHovering(false)}
     >
       <div className={isFeatured ? "" : `overflow-hidden md:col-span-7 ${isEven ? "" : "md:col-start-6"}`}>
+        <TiltCard max={6}>
         <motion.div
-          ref={imgRef}
-          className={`relative overflow-hidden bg-muted border border-border/50 ${
-            isFeatured ? "aspect-[21/9] md:aspect-[21/8]" : "aspect-[4/3]"
+          className={`relative overflow-hidden rounded-md bg-muted border border-border ${
+            isFeatured ? "aspect-[21/9] md:aspect-[21/8]" : "aspect-[16/10]"
           }`}
-          style={{ perspective: "800px" }}
           initial={prefersReduced ? { opacity: 1 } : { clipPath: "inset(0 0 100% 0)" }}
           animate={isInView ? { clipPath: "inset(0 0 0% 0)" } : {}}
           transition={{ duration: 0.9, ease: [0.25, 0.1, 0, 1] }}
         >
-          <div className="absolute top-0 left-0 right-0 z-10 flex h-7 items-center gap-1.5 border-b border-border/30 bg-background/60 px-3 backdrop-blur-sm">
+          <div className="absolute top-0 left-0 right-0 z-10 flex h-7 items-center gap-1.5 border-b border-border bg-background/60 px-3 backdrop-blur-sm">
             <span className="h-2 w-2 rounded-full bg-red-500/60" />
             <span className="h-2 w-2 rounded-full bg-yellow-500/60" />
             <span className="h-2 w-2 rounded-full bg-green-500/60" />
-            <span className="ml-2 text-[9px] uppercase tracking-[0.15em] text-muted-foreground/40">proyecto</span>
+            <span className="ml-2 truncate text-sm text-muted-foreground">{project.url.replace("https://", "")}</span>
           </div>
-          <motion.div
-            style={{
-              y: prefersReduced ? 0 : imgY,
-              scale: prefersReduced ? 1 : imgScale,
-              rotateX: tilt.x,
-              rotateY: tilt.y,
-            }}
-            transition={{ type: "spring", stiffness: 200, damping: 20 }}
-            className="h-full w-full pt-7"
-          >
+          <div className="h-full w-full pt-7">
             <motion.img
               src={project.image}
               alt={project.title}
+              loading="lazy"
               className="h-full w-full object-cover object-top"
-              animate={hovering ? { scale: 1.08 } : { scale: 1 }}
+              style={prefersReduced ? {} : { y: imgY }}
+              animate={prefersReduced ? {} : hovering ? { scale: 1.18 } : { scale: 1.12 }}
               transition={{ duration: 0.7, ease: "easeOut" }}
             />
-          </motion.div>
+          </div>
 
-          <motion.div
+          <div
             className={`absolute inset-0 ${isFeatured ? "bg-gradient-to-t from-background/70 via-background/20 to-transparent" : "bg-gradient-to-t from-background/40 via-transparent to-transparent"}`}
-            animate={hovering ? { opacity: 1 } : { opacity: isFeatured ? 1 : 0 }}
-            transition={{ duration: 0.3 }}
           />
+          <div className="shine-sweep" aria-hidden="true" />
 
           <motion.div
             className="absolute bottom-5 right-5 flex h-10 w-10 items-center justify-center rounded-full bg-background/70 backdrop-blur-sm border border-foreground/10"
@@ -330,16 +301,17 @@ function ProjectRow({
           </motion.div>
 
           {isFeatured && (
-            <div className="absolute top-12 left-3 rounded-full bg-warm/20 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.15em] text-warm border border-warm/30 shadow-[0_0_12px_-4px_rgba(138,122,106,0.3)]">
+            <div className="absolute top-12 left-3 rounded-full bg-warm/20 px-3 py-1 text-xs font-semibold uppercase tracking-[0.15em] text-warm border border-warm/30">
               {project.badge || t.projects.featured_badge}
             </div>
           )}
         </motion.div>
+        </TiltCard>
       </div>
 
       <div className={isFeatured ? "" : `flex flex-col justify-end pb-4 md:col-span-4 md:pb-10 ${isEven ? "" : "md:col-start-2 md:row-start-1"}`}>
         <motion.p
-          className={`uppercase tracking-[0.15em] text-warm ${isFeatured ? "text-sm" : "text-xs"}`}
+          className={`uppercase tracking-[0.15em] text-warm text-sm`}
           initial={prefersReduced ? { opacity: 1 } : { opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.1, duration: 0.5, ease: "easeOut" }}
@@ -352,14 +324,14 @@ function ProjectRow({
               ? "font-display text-4xl md:text-5xl"
               : "font-display text-2xl md:text-3xl"
           }`}
-          initial={prefersReduced ? { opacity: 1 } : { opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          initial={prefersReduced ? { opacity: 1 } : { opacity: 0, x: isEven ? -40 : 40 }}
+          animate={isInView ? { opacity: 1, x: 0 } : {}}
           transition={{ delay: 0.15, duration: 0.5, ease: [0.25, 0.1, 0, 1] }}
         >
           {project.title}
         </motion.h3>
         <motion.p
-          className={`mt-3 leading-relaxed text-muted-foreground ${isFeatured ? "max-w-xl text-base md:text-lg" : "text-sm"}`}
+          className={`mt-3 leading-relaxed text-muted-foreground ${isFeatured ? "max-w-xl text-base md:text-lg" : "text-base line-clamp-2"}`}
           initial={prefersReduced ? { opacity: 1 } : { opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.2, duration: 0.5, ease: "easeOut" }}
@@ -367,7 +339,7 @@ function ProjectRow({
           {project.desc}
         </motion.p>
         <motion.p
-          className="mt-4 text-xs text-muted-foreground/50"
+          className="mt-4 inline-block rounded-full border border-border/60 px-3 py-1 text-sm text-muted-foreground"
           initial={prefersReduced ? { opacity: 1 } : { opacity: 0, y: 10 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.25, duration: 0.5, ease: "easeOut" }}
@@ -375,7 +347,7 @@ function ProjectRow({
           {project.category}
         </motion.p>
         <motion.span
-          className="mt-4 inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.15em] text-warm/50 transition-all duration-300 group-hover:text-warm"
+          className="mt-4 inline-flex items-center gap-1.5 text-sm uppercase tracking-[0.15em] text-warm/70 transition-all duration-300 group-hover:text-warm"
           initial={prefersReduced ? { opacity: 1 } : { opacity: 0, y: 10 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.3, duration: 0.5, ease: "easeOut" }}

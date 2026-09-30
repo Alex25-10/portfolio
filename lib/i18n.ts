@@ -218,6 +218,9 @@ export const t = {
       ],
       cta: "¿Cuánto sale mi proyecto?",
       plan_cta: "Consultar este plan",
+      popular: "Popular",
+      promo_badge: "−15% con video · −10% con testimonio",
+      promo_hint: "Pasame un video de 30s o un testimonio escrito y te lo descuento del plan que elijas.",
       note: "Precios Argentina en USD, pagás en pesos al cambio del día hasta en 9 cuotas. Afuera se cotiza aparte.",
     },
     faq: {
@@ -461,6 +464,9 @@ export const t = {
       ],
       cta: "What's my project cost?",
       plan_cta: "Ask about this plan",
+      popular: "Popular",
+      promo_badge: "−15% with video · −10% with testimonial",
+      promo_hint: "Send a 30s video or a written testimonial and I discount it from your plan.",
       note: "International rates in USD. Scope may adjust the final quote.",
     },
     faq: {

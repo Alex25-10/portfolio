@@ -67,7 +67,18 @@ export function Footer() {
   }
 
   return (
-    <footer className="border-t border-border/40">
+    <footer className="overflow-hidden border-t border-border/40">
+      <div className="container" aria-hidden="true">
+        <motion.p
+          className="text-outline-giant select-none text-center font-display text-[clamp(6rem,22vw,16rem)] font-bold leading-none tracking-tight"
+          initial={prefersReduced ? { opacity: 1 } : { opacity: 0, y: 60 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, ease: [0.25, 0.1, 0, 1] }}
+        >
+          AV
+        </motion.p>
+      </div>
       <div className="container">
         <div className="flex flex-col items-center justify-between gap-6 py-8 md:flex-row">
           <p className="text-xs text-muted-foreground">

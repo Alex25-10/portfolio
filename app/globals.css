@@ -8,11 +8,11 @@
   --color-card: #111;
   --color-card-foreground: #f5f5f5;
   --color-muted: #1a1a1a;
-  --color-muted-foreground: #666;
-  --color-warm: #8a7a6a;
-  --color-border: #1c1c1c;
-  --color-ring: #555;
-  --radius: 0;
+  --color-muted-foreground: #a8a8a8;
+  --color-warm: #c4b5a5;
+  --color-border: #2b2b2b;
+  --color-ring: #888;
+  --radius: 0.5rem;
   --font-sans: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-archivo), ui-serif, Georgia, serif;
 }
@@ -26,6 +26,8 @@
   }
   body {
     @apply bg-background text-foreground antialiased;
+    font-size: 17px;
+    line-height: 1.6;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
   ::selection {
@@ -70,7 +72,7 @@
   inset: 0;
   pointer-events: none;
   z-index: 9997;
-  background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.6) 100%);
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.35) 100%);
 }
 
 .grain-overlay {
@@ -78,9 +80,191 @@
   inset: 0;
   pointer-events: none;
   z-index: 9998;
-  opacity: 0.06;
+  opacity: 0.03;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
   background-repeat: repeat;
   background-size: 256px 256px;
   mix-blend-mode: overlay;
+}
+
+.dust-dot {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(196,181,165,0.9) 0%, rgba(196,181,165,0) 70%);
+  opacity: 0;
+  animation: dust-float 7s ease-in-out infinite;
+}
+
+.dust-xs {
+  width: 2px;
+  height: 2px;
+}
+
+.dust-sm {
+  width: 3px;
+  height: 3px;
+}
+
+.dust-lg {
+  width: 8px;
+  height: 8px;
+}
+
+.dust-emerald {
+  background: radial-gradient(circle, rgba(16,185,129,0.9) 0%, rgba(16,185,129,0) 70%);
+}
+
+.dust-twinkle {
+  animation-name: dust-twinkle;
+}
+
+.dust-drift {
+  animation-name: dust-drift;
+}
+
+@keyframes dust-float {
+  0%, 100% { opacity: 0; transform: translateY(0) scale(0.8); }
+  50% { opacity: 0.9; transform: translateY(-30px) scale(1.1); }
+}
+
+@keyframes dust-twinkle {
+  0%, 100% { opacity: 0; transform: scale(0.6); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+
+@keyframes dust-drift {
+  0%, 100% { opacity: 0; transform: translate(0, 0) scale(0.8); }
+  50% { opacity: 0.8; transform: translate(24px, -44px) scale(1.05); }
+}
+
+.glow-orb {
+  position: absolute;
+  border-radius: 9999px;
+  pointer-events: none;
+  filter: blur(90px);
+}
+
+.hairline-glow {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(196,181,165,0.35), transparent);
+}
+
+.tilt-card .tilt-glare {
+  opacity: 0;
+  transition: opacity 0.4s ease-out;
+}
+
+.tilt-card:hover .tilt-glare {
+  opacity: 1;
+}
+
+.shine-sweep {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.16) 50%, transparent 60%);
+  transform: translateX(-120%);
+  transition: transform 0.8s ease-out, opacity 0.3s ease-out;
+}
+
+.group:hover .shine-sweep {
+  opacity: 1;
+  transform: translateX(120%);
+}
+
+.h1-shimmer {
+  background-image: linear-gradient(100deg, var(--foreground) 30%, #c4b5a5 42%, #ffffff 50%, #c4b5a5 58%, var(--foreground) 70%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.spotlight {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease-out;
+  background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgba(16,185,129,0.14), transparent 70%);
+}
+
+.group:hover .spotlight {
+  opacity: 1;
+}
+
+.price-shimmer {
+  background-image: linear-gradient(100deg, #34d399 25%, #ecfdf5 50%, #34d399 75%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: price-shine 3.5s linear infinite;
+}
+
+@keyframes price-shine {
+  to { background-position: -200% 0; }
+}
+
+.contact-shimmer {
+  background-image: linear-gradient(100deg, #c4b5a5 25%, #ffffff 50%, #c4b5a5 75%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: price-shine 4s linear infinite;
+}
+
+.text-outline-giant {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(245,245,245,0.14);
+}
+
+.num-outline {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(196,181,165,0.35);
+}
+
+.grain-overlay {
+  animation: grain-shift 0.9s steps(4) infinite;
+}
+
+@keyframes grain-shift {
+  0% { background-position: 0 0; }
+  25% { background-position: -64px 32px; }
+  50% { background-position: 32px -64px; }
+  75% { background-position: -32px -32px; }
+  100% { background-position: 0 0; }
+}
+
+.contact-glow {
+  animation: contact-pulse 3s ease-in-out infinite;
+}
+@keyframes contact-pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.35) 50%, transparent 60%);
+  transform: translateX(-120%);
+  animation: btn-sweep 3s ease-in-out infinite;
+}
+
+@keyframes btn-sweep {
+  0%, 60% { transform: translateX(-120%); }
+  100% { transform: translateX(120%); }
 }

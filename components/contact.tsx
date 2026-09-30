@@ -4,6 +4,7 @@ import { useRef, useState } from "react"
 import { motion, useInView, useReducedMotion } from "framer-motion"
 import { MessageCircle, Mail, MapPin, Send } from "lucide-react"
 import { useLanguage } from "@/lib/i18n-context"
+import { DustField } from "@/components/dust-field"
 import { track } from "@vercel/analytics"
 
 const WHATSAPP_URL = "https://wa.me/543571578382"
@@ -25,17 +26,19 @@ export function Contact() {
   }
 
   const inputClass =
-    "w-full border border-border/50 bg-transparent px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/50 focus:border-foreground/40 focus:outline-none"
+    "w-full rounded-md border border-border bg-transparent px-4 py-3.5 text-base text-foreground placeholder:text-muted-foreground/60 focus:border-foreground/40 focus:outline-none"
 
   const linkClass =
-    "group inline-flex items-center gap-3 text-sm text-muted-foreground transition-colors hover:text-foreground cursor-pointer"
+    "group inline-flex items-center gap-3 text-base text-muted-foreground transition-colors hover:text-foreground cursor-pointer"
 
   return (
-    <section id="contact" ref={ref} className="py-24 md:py-40">
-      <div className="container">
-        <div className="grid gap-12 md:grid-cols-2 md:gap-20">
+    <section id="contact" ref={ref} className="relative overflow-hidden py-24 md:py-40">
+      <DustField count={10} seed={42} />
+      <div className="glow-orb contact-glow left-1/2 top-1/3 h-80 w-[46rem] -translate-x-1/2 bg-warm/[0.06]" aria-hidden="true" />
+      <div className="container relative">
+        <div className="mx-auto max-w-2xl text-center">
           <motion.p
-            className="text-xs uppercase tracking-[0.2em] text-muted-foreground"
+            className="text-sm uppercase tracking-[0.2em] text-muted-foreground"
             initial={prefersReduced ? { opacity: 1 } : { opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, ease: "easeOut" }}
@@ -43,7 +46,7 @@ export function Contact() {
             {t.contact.label}
           </motion.p>
 
-          <div className="space-y-10">
+          <div className="mt-8 space-y-8">
             <motion.h2
               className="font-display text-4xl font-bold leading-[0.95] tracking-tight md:text-6xl"
               initial={prefersReduced ? { opacity: 1 } : { opacity: 0, y: 30 }}
@@ -52,11 +55,11 @@ export function Contact() {
             >
               {t.contact.title_1}
               <br />
-              <span className="text-warm">{t.contact.title_2}</span>
+              <span className="contact-shimmer">{t.contact.title_2}</span>
             </motion.h2>
 
             <motion.p
-              className="max-w-xs text-sm leading-relaxed text-muted-foreground"
+              className="mx-auto max-w-md text-base leading-relaxed text-muted-foreground"
               initial={prefersReduced ? { opacity: 1 } : { opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.2, duration: 0.5, ease: "easeOut" }}
@@ -65,7 +68,7 @@ export function Contact() {
             </motion.p>
 
             <motion.div
-              className="space-y-5"
+              className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4"
               initial={prefersReduced ? { opacity: 1 } : { opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.3, duration: 0.5, ease: "easeOut" }}
@@ -80,7 +83,7 @@ export function Contact() {
                 alex.dev2510@gmail.com
               </a>
               <br />
-              <span className="inline-flex items-center gap-3 text-sm text-muted-foreground/50">
+              <span className="inline-flex items-center gap-3 text-base text-muted-foreground">
                 <MapPin className="h-4 w-4" />
                 {t.contact.location}
               </span>
@@ -88,12 +91,12 @@ export function Contact() {
 
             <motion.form
               onSubmit={handleSubmit}
-              className="space-y-3 border border-border/40 bg-card/10 p-5 md:p-6"
+              className="space-y-4 rounded-md border border-border/80 bg-card/60 p-8 text-left backdrop-blur-xl"
               initial={prefersReduced ? { opacity: 1 } : { opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.4, duration: 0.5, ease: "easeOut" }}
             >
-              <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+              <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground">
                 {t.contact.form_title}
               </p>
               <input
@@ -120,7 +123,7 @@ export function Contact() {
               />
               <button
                 type="submit"
-                className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-xs font-medium uppercase tracking-[0.1em] text-background transition-all hover:opacity-80 cursor-pointer"
+                className="btn-shine inline-flex w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 py-3.5 text-sm font-medium uppercase tracking-[0.1em] text-background transition-all hover:opacity-80 active:scale-[0.98] cursor-pointer"
               >
                 <Send className="h-3.5 w-3.5" />
                 {t.contact.form_send}

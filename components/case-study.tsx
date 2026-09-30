@@ -14,6 +14,13 @@ export function CaseStudy() {
   const c = t.casestudy
 
   const [activeId, setActiveId] = useState(c.projects[0]?.id ?? "")
+  const [dir, setDir] = useState(1)
+  const activeIdx = c.projects.findIndex((p: { id: string }) => p.id === activeId)
+
+  function selectTab(id: string, i: number) {
+    setDir(i >= activeIdx ? 1 : -1)
+    setActiveId(id)
+  }
 
   const project = c.projects.find((p: { id: string }) => p.id === activeId)
   if (!project) return null
@@ -40,7 +47,7 @@ export function CaseStudy() {
             {c.projects.map((p: { id: string; title: string }, i: number) => (
               <button
                 key={p.id}
-                onClick={() => setActiveId(p.id)}
+                onClick={() => selectTab(p.id, i)}
                 className={`relative rounded-full px-3 py-1.5 text-[11px] uppercase tracking-[0.1em] transition-colors ${
                   activeId === p.id
                     ? "text-background"
@@ -64,9 +71,9 @@ export function CaseStudy() {
           <motion.div
             key={project.id}
             className="mt-8 grid gap-12 md:grid-cols-5 md:gap-16"
-            initial={prefersReduced ? { opacity: 1 } : { opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={prefersReduced ? { opacity: 1 } : { opacity: 0, y: -10 }}
+            initial={prefersReduced ? { opacity: 1 } : { opacity: 0, x: 48 * dir }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={prefersReduced ? { opacity: 1 } : { opacity: 0, x: -48 * dir }}
             transition={{ duration: 0.4, ease: [0.25, 0.1, 0, 1] }}
           >
             {/* Left: title + meta */}

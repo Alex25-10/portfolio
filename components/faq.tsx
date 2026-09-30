@@ -36,7 +36,7 @@ export function FAQ() {
               >
                 <button
                   onClick={() => setOpenIndex(isOpen ? null : i)}
-                  className="flex w-full items-center justify-between gap-4 py-5 text-left text-sm font-medium text-foreground transition-colors hover:text-warm md:text-base cursor-pointer"
+                  className={`flex w-full items-center justify-between gap-4 py-5 text-left text-sm font-medium transition-colors cursor-pointer md:text-base ${isOpen ? "text-warm" : "text-foreground hover:text-warm"}`}
                   aria-expanded={isOpen}
                 >
                   {item.q}
@@ -49,9 +49,9 @@ export function FAQ() {
                 <AnimatePresence initial={false}>
                   {isOpen && (
                     <motion.div
-                      initial={prefersReduced ? { height: "auto", opacity: 1 } : { height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={prefersReduced ? { height: "auto", opacity: 1 } : { height: 0, opacity: 0 }}
+                      initial={prefersReduced ? { height: "auto", opacity: 1 } : { height: 0, opacity: 0, filter: "blur(4px)" }}
+                      animate={{ height: "auto", opacity: 1, filter: "blur(0px)" }}
+                      exit={prefersReduced ? { height: "auto", opacity: 1 } : { height: 0, opacity: 0, filter: "blur(4px)" }}
                       transition={{ duration: 0.3, ease: "easeInOut" }}
                       className="overflow-hidden"
                     >

@@ -4,6 +4,8 @@ import { useRef } from "react"
 import { motion, useInView, useReducedMotion } from "framer-motion"
 import { Palette, Globe, Sparkles, Smartphone } from "lucide-react"
 import { useLanguage } from "@/lib/i18n-context"
+import { DustField } from "@/components/dust-field"
+import { BlurReveal, ParallaxOrb } from "@/components/scroll-reveal"
 
 const iconMap = [Palette, Globe, Sparkles, Smartphone] as const
 
@@ -14,16 +16,15 @@ export function Skills() {
   const { translations: t } = useLanguage()
 
   return (
-    <section ref={ref} className="border-t border-border py-24 md:py-32">
+    <section ref={ref} className="relative border-t border-border py-24 md:py-32">
+      <ParallaxOrb className="left-[-10rem] top-1/3 h-96 w-96 bg-warm/[0.05]" speed={80} />
+      <DustField count={10} seed={11} />
       <div className="container">
-        <motion.p
-          className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground"
-          initial={prefersReduced ? { opacity: 1 } : { opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-        >
-          {t.skills.label}
-        </motion.p>
+        <BlurReveal>
+          <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+            {t.skills.label}
+          </p>
+        </BlurReveal>
 
         <div className="mt-16 space-y-12 md:space-y-16">
           {t.skills.items.map((service, i) => {
@@ -31,12 +32,12 @@ export function Skills() {
             return (
               <motion.div
                 key={service.title}
-                initial={prefersReduced ? { opacity: 1 } : { opacity: 0, y: 40 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                initial={prefersReduced ? { opacity: 1 } : [{ opacity: 0, x: -48 }, { opacity: 0, x: 48 }, { opacity: 0, y: 48 }, { opacity: 0, scale: 0.96 }][i % 4]}
+                animate={isInView ? { opacity: 1, x: 0, y: 0, scale: 1 } : {}}
                 transition={{ delay: i * 0.1, duration: 0.5, ease: [0.25, 0.1, 0, 1] }}
                 className="group grid gap-4 md:grid-cols-12 md:gap-8"
               >
-                <span className="hidden font-display text-5xl font-bold leading-none text-border transition-colors duration-300 group-hover:text-warm/30 md:col-span-2 md:block">
+                <span className="num-outline hidden font-display text-5xl font-bold leading-none transition-colors duration-300 group-hover:text-warm/30 md:col-span-2 md:block">
                   {service.num}
                 </span>
                 <div className="flex items-start gap-4 md:col-span-10 md:gap-6">

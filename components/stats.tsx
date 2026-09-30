@@ -1,14 +1,40 @@
 "use client"
 
-import { useRef } from "react"
-import { motion, useInView, useReducedMotion } from "framer-motion"
+import { useEffect, useRef, useState } from "react"
+import { motion, useInView, useReducedMotion, animate } from "framer-motion"
 import { useLanguage } from "@/lib/i18n-context"
 
 const stats = [
-  { num: "10+", key: "projects" },
-  { num: "2", key: "countries" },
-  { num: "1-4", key: "delivery" },
+  { num: 10, suffix: "+", key: "projects" },
+  { num: 2, suffix: "", key: "countries" },
+  { num: null, suffix: "", key: "delivery" },
 ]
+
+function CountUp({ to, suffix, start }: { to: number; suffix: string; start: boolean }) {
+  const prefersReduced = useReducedMotion()
+  const [val, setVal] = useState(0)
+
+  useEffect(() => {
+    if (!start) return
+    if (prefersReduced) {
+      setVal(to)
+      return
+    }
+    const controls = animate(0, to, {
+      duration: 1.4,
+      ease: [0.25, 0.1, 0, 1],
+      onUpdate: (v) => setVal(Math.round(v)),
+    })
+    return () => controls.stop()
+  }, [start, to, prefersReduced])
+
+  return (
+    <span>
+      {val}
+      {suffix}
+    </span>
+  )
+}
 
 export function Stats() {
   const prefersReduced = useReducedMotion()
@@ -29,7 +55,7 @@ export function Stats() {
               transition={{ delay: i * 0.1, duration: 0.5, ease: "easeOut" }}
             >
               <span className="block font-display text-3xl font-bold text-foreground md:text-4xl">
-                {s.num}
+                {s.num === null ? "1-4" : <CountUp to={s.num} suffix={s.suffix} start={isInView} />}
               </span>
               <span className="mt-1 block text-xs uppercase tracking-[0.15em] text-muted-foreground/60">
                 {t.stats[s.key as keyof typeof t.stats]}

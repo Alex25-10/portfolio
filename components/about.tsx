@@ -1,33 +1,45 @@
 "use client"
 
 import { useRef } from "react"
-import { motion, useInView, useReducedMotion } from "framer-motion"
+import { motion, useInView, useReducedMotion, useScroll, useTransform, useMotionTemplate } from "framer-motion"
 import { useLanguage } from "@/lib/i18n-context"
+import { DustField } from "@/components/dust-field"
+import { ParallaxOrb } from "@/components/scroll-reveal"
+import { TiltCard } from "@/components/tilt-card"
 
 export function About() {
   const prefersReduced = useReducedMotion()
-  const ref = useRef(null)
+  const ref = useRef<HTMLElement>(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "center center"] })
+  const imgY = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"])
+  const grayV = useTransform(scrollYProgress, [0, 1], [100, 0])
+  const grayFilter = useMotionTemplate`grayscale(${grayV}%)`
   const { translations: t } = useLanguage()
 
   return (
-    <section id="about" ref={ref} className="py-24 md:py-40">
+    <section id="about" ref={ref} className="relative py-24 md:py-40">
+      <ParallaxOrb className="right-[-12rem] top-1/4 h-[28rem] w-[28rem] bg-warm/[0.05]" speed={100} />
+      <DustField count={8} seed={33} />
       <div className="container">
         <div className="grid gap-12 md:grid-cols-5 md:gap-16">
           <div className="md:col-span-2">
+            <TiltCard max={8}>
             <motion.div
               className="relative mx-auto aspect-square w-56 overflow-hidden rounded-full border border-border/60 shadow-[0_0_30px_-10px_rgba(245,245,245,0.08)] md:w-full md:max-w-xs"
               initial={prefersReduced ? { opacity: 1 } : { opacity: 0, scale: 0.9 }}
               animate={isInView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.6, ease: [0.25, 0.1, 0, 1] }}
             >
-              <img
+              <motion.img
                 src="/profile.webp"
                 alt="Alex Vélez"
-                className="h-full w-full object-cover grayscale transition-all duration-500 hover:grayscale-0"
+                className="h-full w-full scale-110 object-cover transition-[filter] duration-500 hover:grayscale-0"
+                style={prefersReduced ? {} : { y: imgY, filter: grayFilter }}
               />
               <div className="absolute inset-0 rounded-full ring-1 ring-inset ring-border/50" />
             </motion.div>
+            </TiltCard>
           </div>
 
           <div className="md:col-span-3">

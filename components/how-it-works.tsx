@@ -1,13 +1,14 @@
 "use client"
 
 import { useRef } from "react"
-import { motion, useInView, useReducedMotion } from "framer-motion"
+import { motion, useInView, useReducedMotion, useScroll } from "framer-motion"
 import { useLanguage } from "@/lib/i18n-context"
 
 export function HowItWorks() {
   const prefersReduced = useReducedMotion()
-  const ref = useRef(null)
+  const ref = useRef<HTMLElement>(null)
   const isInView = useInView(ref, { once: true, margin: "-80px" })
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start center", "end center"] })
   const { translations: t } = useLanguage()
 
   return (
@@ -32,7 +33,14 @@ export function HowItWorks() {
         </motion.h2>
 
         <div className="relative mt-16 md:mt-24">
-          <div className="absolute left-[21px] top-0 bottom-0 hidden w-px bg-border/60 md:block" />
+          <div className="absolute left-[21px] top-0 bottom-0 hidden w-px bg-border/60 md:block" aria-hidden="true" />
+          {!prefersReduced && (
+            <motion.div
+              className="absolute left-[21px] top-0 bottom-0 hidden w-px origin-top bg-warm md:block"
+              aria-hidden="true"
+              style={{ scaleY: scrollYProgress }}
+            />
+          )}
 
           <div className="space-y-16 md:space-y-24">
             {t.howitworks.steps.map((step, i) => {
@@ -48,12 +56,18 @@ export function HowItWorks() {
                   <div className="hidden md:flex md:w-1/2 md:justify-end" />
 
                   <div className="relative z-10 flex items-start gap-4 md:w-1/2 md:gap-6">
-                    <div className="relative flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-full border border-warm/30 bg-background md:h-[50px] md:w-[50px]">
+                    <motion.div
+                      className="relative flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-full border border-warm/30 bg-background md:h-[50px] md:w-[50px]"
+                      initial={prefersReduced ? {} : { boxShadow: "0 0 0 0 rgba(196,181,165,0)" }}
+                      whileInView={prefersReduced ? {} : { boxShadow: "0 0 24px 2px rgba(196,181,165,0.35)" }}
+                      viewport={{ once: true, margin: "-60px" }}
+                      transition={{ duration: 0.6, ease: "easeOut" }}
+                    >
                       <span className="font-display text-sm font-bold text-warm md:text-base">
                         {step.num}
                       </span>
                       <div className="absolute top-1/2 left-1/2 h-8 w-8 -translate-x-1/2 -translate-y-1/2 rounded-full border border-warm/10 md:h-10 md:w-10" />
-                    </div>
+                    </motion.div>
 
                     <div className={isLeft ? "md:text-right" : ""}>
                       <h3 className="font-display text-xl font-bold text-foreground md:text-2xl">

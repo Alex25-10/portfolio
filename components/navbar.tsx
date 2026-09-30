@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useCallback } from "react"
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion"
+import { motion, AnimatePresence, useReducedMotion, useScroll, useTransform, useMotionTemplate } from "framer-motion"
 import { X } from "lucide-react"
 import { useLanguage } from "@/lib/i18n-context"
 import { useFocusTrap } from "@/hooks/use-focus-trap"
@@ -26,6 +26,12 @@ export function Navbar() {
   const [active, setActive] = useState("")
   const prefersReduced = useReducedMotion()
   const menuRef = useFocusTrap(open)
+  const { scrollY } = useScroll()
+  const navBlur = useTransform(scrollY, [0, 120], [0, 12])
+  const navBg = useTransform(scrollY, [0, 120], [0, 0.6])
+  const navFilter = useMotionTemplate`blur(${navBlur}px)`
+  const navBgColor = useMotionTemplate`rgba(10,10,10,${navBg})`
+  const headerStyle = prefersReduced ? {} : { backdropFilter: navFilter, backgroundColor: navBgColor }
 
   useEffect(() => {
     function handleScroll() {
@@ -65,7 +71,7 @@ export function Navbar() {
 
   return (
     <>
-      <header className="fixed top-0 right-0 left-0 z-50 bg-background/60 backdrop-blur-lg" aria-hidden={open || undefined}>
+      <motion.header className="fixed top-0 right-0 left-0 z-50" style={headerStyle} aria-hidden={open || undefined}>
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 md:px-10">
           <a
             href="#"
@@ -127,7 +133,7 @@ export function Navbar() {
             </div>
           </button>
         </div>
-      </header>
+      </motion.header>
 
       <AnimatePresence>
         {open && (
