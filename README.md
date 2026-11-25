@@ -9,7 +9,7 @@ Portfolio personal de Alex Vélez, construida para showcases de trabajo freelanc
 | Capa | Elección |
 |---|---|
 | Framework | Next.js 16.2 (App Router, React 19.2) |
-| Build | Turbopack |
+| Build | Webpack (`next build --webpack`) |
 | Estilos | Tailwind CSS v4 |
 | Animación | Motion 12 + Lenis 1.3 (scroll suave) |
 | 3D | Three.js 0.184 + React Three Fiber 9 + drei |
@@ -59,6 +59,9 @@ public/         webp de proyectos, diplomas y screenshots
 ```
 
 ## Nota
+
+El build usa Webpack porque Turbopack 16.2.6 falla con `next/font/google` en
+este repo con el error `next/font/google queries have exactly one entry`.
 
 `.omo/` y los `*.BACKUP` quedan fuera del repo por `.gitignore`: son rollback
 local, nunca código de deploy. `.vercelignore` replica esa regla para que Vercel

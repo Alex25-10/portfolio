@@ -14,7 +14,7 @@ Next.js 16, Tailwind v4, framer-motion 12, Three.js (R3F), Lenis, lucide-react
 5. **MarqueeStrip** — tech stack scrolleando, gradient fade edges
 6. **Skills** — 4 servicios con número, icono en círculo, copy concreto con mini-CTAs
 7. **Stats** — 10+ sitios publicados, 2 países, 1-4 semanas entrega
-9. **Projects** — reales (Begin Again, Edurne) separados arriba, demos por rubro abajo. Clip-path reveal, parallax Y, 3D tilt (mouse+touch), browser frame. Modal con focus trap. CTA "¿Querés tu proyecto acá?"
+9. **Projects** — reales arriba (Begin Again, Edurne Reyes, Arkha, Karvo · Arkha Ventures) y demos abajo (ONYX, Clínica Dental Cabrera, Sabor Express, Titan Gym, Scalix, Ámbar, LUUZ, Esperanza Velas, Veil, PsiConnection, TERRA). Barquito Peruano fuera. Clip-path reveal, parallax Y, 3D tilt (mouse+touch), browser frame. Modal con focus trap. CTA "¿Querés tu proyecto acá?"
 10. **Testimonials** — 3 tarjetas con hover lift (contenido en `lib/i18n.ts`, ES+EN). CTA "El próximo testimonio puede ser el tuyo →"
 11. **About** — foto circular (grayscale→color), bio con mención a WordPress, CTA "Trabajemos juntos →"
 12. **Contact** — mini-form (nombre/negocio/mensaje) que abre WhatsApp + WhatsApp + Email + ubicación
